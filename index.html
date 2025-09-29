@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Infinite Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1>The Infinite Journey</h1>
+            <div class="controls">
+                <button id="syncBtn" class="sync-btn">🔄 Sync</button>
+                <button id="addBtn" class="add-btn">+ Add to Journey</button>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="video-container">
+                <canvas id="videoCanvas" width="512" height="512"></canvas>
+                <div class="video-controls">
+                    <button id="playBtn">▶️</button>
+                    <button id="pauseBtn" style="display: none;">⏸️</button>
+                    <button id="beginningBtn">⏮️ Start</button>
+                    <button id="liveBtn">🔴 Live</button>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <span id="timeDisplay">0 / 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h3>Journey Timeline</h3>
+                <div id="segmentsList" class="segments-list"></div>
+            </div>
+
+            <div id="addModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Add to the Infinite Journey</h3>
+                    <div class="context-preview">
+                        <h4>Previous Frame:</h4>
+                        <img id="contextImage" src="" alt="Previous frame" style="width: 100%; max-width: 300px;">
+                        <p id="contextText"></p>
+                    </div>
+                    <div class="input-group">
+                        <label for="promptInput">Your Addition (describe what happens next):</label>
+                        <textarea id="promptInput" placeholder="A shooting star crosses the sky..." rows="3"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="speechInput">Narration (optional):</label>
+                        <textarea id="speechInput" placeholder="And then, a shooting star crossed the vast sky..." rows="2"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="cancelBtn" class="cancel-btn">Cancel</button>
+                        <button id="generateBtn" class="generate-btn">Generate & Add</button>
+                    </div>
+                    <div id="generationStatus" class="generation-status" style="display: none;"></div>
+                </div>
+            </div>
+        </main>
+
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Loading the infinite journey...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
