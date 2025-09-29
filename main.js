@@ -32,6 +32,7 @@ class InfiniteJourney {
         this.addModal = document.getElementById('addModal');
         this.settingsModal = document.getElementById('settingsModal');
         this.settingsBtn = document.getElementById('settingsBtn');
+        this.loadingOverlay = document.getElementById('loadingOverlay');
     }
 
     initializeEventListeners() {
