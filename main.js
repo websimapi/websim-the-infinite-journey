@@ -13,6 +13,7 @@ class InfiniteJourney {
         this.ctx = this.canvas.getContext('2d');
         
         this.initializeElements();
+        this.modelChoice = localStorage.getItem('modelChoice') || 'flux-schnell';
         this.initializeEventListeners();
         this.loadSegments();
         this.startPlaybackLoop();
@@ -29,7 +30,8 @@ class InfiniteJourney {
         this.timeDisplay = document.getElementById('timeDisplay');
         this.segmentsList = document.getElementById('segmentsList');
         this.addModal = document.getElementById('addModal');
-        this.loadingOverlay = document.getElementById('loadingOverlay');
+        this.settingsModal = document.getElementById('settingsModal');
+        this.settingsBtn = document.getElementById('settingsBtn');
     }
 
     initializeEventListeners() {
@@ -39,6 +41,7 @@ class InfiniteJourney {
         this.liveBtn.addEventListener('click', () => this.goToLive());
         this.syncBtn.addEventListener('click', () => this.sync());
         this.addBtn.addEventListener('click', () => this.openAddModal());
+        this.settingsBtn.addEventListener('click', () => this.openSettingsModal());
         
         document.getElementById('cancelBtn').addEventListener('click', () => this.closeAddModal());
         document.getElementById('generateBtn').addEventListener('click', () => this.generateAndAdd());
@@ -249,6 +252,27 @@ class InfiniteJourney {
         this.addModal.style.display = 'none';
     }
 
+    async openSettingsModal() {
+        document.getElementById('modelFlux').checked = this.modelChoice === 'flux-schnell';
+        document.getElementById('modelNano').checked = this.modelChoice === 'nano-banana';
+        this.settingsModal.style.display = 'flex';
+    }
+
+    closeSettingsModal() {
+        this.settingsModal.style.display = 'none';
+    }
+
+    async urlToDataUrl(url) {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+
     async generateAndAdd() {
         const prompt = document.getElementById('promptInput').value.trim();
         const speechText = document.getElementById('speechInput').value.trim();
@@ -266,15 +290,16 @@ class InfiniteJourney {
         statusEl.textContent = 'Generating your addition to the journey...';
 
         try {
-            // Get context from previous segment
             const lastSegment = this.segments[this.segments.length - 1];
-            const contextPrompt = `Continuing from "${lastSegment.prompt}", now: ${prompt}. Digital art style, cinematic, high quality`;
-            
+            const contextPrompt = `Continuing from "${lastSegment.prompt}", now: ${prompt}. Digital art, cinematic, high quality`;
             statusEl.textContent = 'Creating visual (10 seconds)...';
-            const imageResult = await websim.imageGen({
-                prompt: contextPrompt,
-                aspect_ratio: "1:1"
-            });
+            let imageParams = { prompt: contextPrompt, aspect_ratio: "1:1" };
+            if (this.modelChoice === 'nano-banana') {
+                statusEl.textContent = 'Analyzing previous frame...';
+                const prevDataUrl = await this.urlToDataUrl(lastSegment.image_url);
+                imageParams = { prompt: `${contextPrompt} — maintain visual continuity`, aspect_ratio: "1:1", image_inputs: [{ url: prevDataUrl }] };
+            }
+            const imageResult = await websim.imageGen(imageParams);
             
             let audioResult = null;
             if (speechText) {
@@ -314,4 +339,3 @@ class InfiniteJourney {
 document.addEventListener('DOMContentLoaded', () => {
     new InfiniteJourney();
 });
-

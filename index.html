@@ -16,6 +16,7 @@
             <div class="controls">
                 <button id="syncBtn" class="sync-btn">🔄 Sync</button>
                 <button id="addBtn" class="add-btn">+ Add to Journey</button>
+                <button id="settingsBtn" class="sync-btn">⚙️ Settings</button>
             </div>
         </header>
 
@@ -64,6 +65,26 @@
                     <div id="generationStatus" class="generation-status" style="display: none;"></div>
                 </div>
             </div>
+
+            <div id="settingsModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Settings</h3>
+                    <div class="input-group">
+                        <label>Image Generation Model</label>
+                        <div style="display:flex; gap:1rem;">
+                            <label><input type="radio" name="modelChoice" id="modelFlux" value="flux-schnell"> Flux Schnell</label>
+                            <label><input type="radio" name="modelChoice" id="modelNano" value="nano-banana"> Nano Banana</label>
+                        </div>
+                        <p style="margin-top:0.5rem; opacity:0.7; font-size:0.85rem;">
+                            Nano Banana will analyze the previous frame to keep persistent changes.
+                        </p>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="settingsCancelBtn" class="cancel-btn">Close</button>
+                        <button id="settingsSaveBtn" class="generate-btn">Save</button>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <div id="loadingOverlay" class="loading-overlay">
@@ -78,4 +99,3 @@
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
-
